@@ -216,3 +216,80 @@ App apps[] = {
     {"TeGames", launch_TeGames},
     {"TeEmail", launch_TeEmail}
 };
+
+void launch_TekonAI() {
+    clear_screen();
+    print("TekonAI başlatıldı...\n");
+    print("Merhaba! Sana TeOS uygulamaları hakkında yardımcı olabilirim.\n\n");
+
+    char input[256];
+    while (1) {
+        print("Sen: ");
+        get_user_input(input
+
+void load_installed_apps() {
+    // data/installed_apps/ klasörünü tara
+    // Her uygulama için apps[] listesine ekle
+}
+
+void launch_TeStore() {
+    clear_screen();
+    print("TeStore açıldı.\n");
+    print("Uygulama seç ve indir:\n");
+
+    int app_index = select_app_from_store(); // kullanıcı seçimi
+    download_app(app_index);                 // apps/ ve data/installed_apps/ içine kopyala
+
+    print("Uygulama indirildi ve ana menüye eklendi.\n");
+}
+
+
+typedef struct {
+    char message[256];
+    int read; // 0 = okunmadı, 1 = okundu
+} Notification;
+
+Notification notifications[100];
+int notification_count = 0;
+
+void add_notification(const char* msg) {
+    if (notification_count < 100) {
+        strncpy(notifications[notification_count].message, msg, 256);
+        notifications[notification_count].read = 0;
+        notification_count++;
+    }
+}
+
+void view_notifications() {
+    clear_screen();
+    print("Bildirim Merkezi:\n");
+    for (int i = 0; i < notification_count; i++) {
+        printf("%d. %s [%s]\n", i+1, notifications[i].message,
+               notifications[i].read ? "Okundu" : "Yeni");
+        notifications[i].read = 1;
+    }
+}
+
+typedef struct {
+    char username[50];
+    char avatar[50]; // örnek: emoji veya ascii art
+} Profile;
+
+Profile user_profile;
+
+void load_profile() {
+    // data/profile.txt oku ve user_profile doldur
+}
+
+void save_profile() {
+    // user_profile’ı data/profile.txt kaydet
+}
+
+void edit_profile() {
+    clear_screen();
+    print("Kullanıcı Adı: ");
+    get_user_input(user_profile.username);
+    print("Avatar: ");
+    get_user_input(user_profile.avatar);
+    save_profile();
+}
