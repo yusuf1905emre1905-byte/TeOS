@@ -196,3 +196,23 @@ void menu_loop() {
         }
     }
 }
+typedef struct {
+    const char* name;
+    void (*launch)();
+} App;
+App apps[] = {
+    {"Takky", launch_Takky},
+    {"TeNotePRO", launch_TeNotePRO},
+    {"TeStore", launch_TeStore},
+    {"TeClock", launch_TeClock},
+    {"TeCalendar", launch_TeCalendar},
+    {"TeWallpaper", launch_TeWallpaper},
+    {"TeSecurity", launch_TeSecurity},
+    {"TeLearning", launch_TeLearning},
+    {"TEDEV", launch_TEDEV},
+    {"TPKCreator", launch_TPKCreator},
+    {"TeWeather", launch_TeWeather},
+    {"TeChat", launch_TeChat},
+    {"TeGames", launch_TeGames},
+    {"TeEmail", launch_TeEmail}
+};
