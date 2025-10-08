@@ -70,3 +70,129 @@ void launch_app(int index) {
     apps[index].launch();
 }
 
+// system/kernel/menu.c
+#include <stdint.h>
+#include "apps.c"
+
+#define SCREEN_WIDTH 80
+#define SCREEN_HEIGHT 25
+volatile char *video_memory = (volatile char *)0xB8000;
+
+// Basit fare koordinatları (placeholder)
+int mouse_x = 0;
+int mouse_y = 0;
+
+// Uygulama simgesi pozisyonları
+typedef struct {
+    int x;
+    int y;
+    int app_index;
+} AppIcon;
+
+AppIcon icons[TOTAL_APPS] = {
+    {2, 2, 0},   // Takky
+    {12, 2, 1},  // TeNotePRO
+    {22, 2, 2},  // TeStore
+    {32, 2, 3},  // TeClock
+    {42, 2, 4},  // TeCalendar
+    {52, 2, 5},  // TeWallpaper
+    {2, 5, 6},   // TeSecurity
+    {12, 5, 7},  // TeLearning
+    {22, 5, 8},  // TEDEV
+    {32, 5, 9}   // TPK Creator
+};
+
+// Ekrana basit simgeleri çiz
+void draw_menu() {
+    for(int i = 0; i < TOTAL_APPS; i++) {
+        int pos = icons[i].y*SCREEN_WIDTH*2 + icons[i].x*2;
+        const char *name = apps[icons[i].app_index].name;
+        for(int j = 0; name[j] != '\0'; j++) {
+            video_memory[pos + j*2] = name[j];
+            video_memory[pos + j*2 + 1] = 0x0F;
+        }
+    }
+}
+
+// Basit fare tıklama kontrolü
+void check_click(int click_x, int click_y) {
+    for(int i = 0; i < TOTAL_APPS; i++) {
+        if(click_x >= icons[i].x && click_x <= icons[i].x + 9 &&
+           click_y == icons[i].y) {
+            launch_app(icons[i].app_index);
+        }
+    }
+}
+
+// Ana döngü
+void menu_loop() {
+    draw_menu();
+    while(1) {
+        // Placeholder fare tıklama simülasyonu
+        // Gerçek sürücü eklendiğinde mouse_x, mouse_y güncellenecek
+        int click = 0; // tıklama var mı?
+        if(click) {
+            check_click(mouse_x, mouse_y);
+        }
+    }
+}
+// system/kernel/mouse.c
+#include <stdint.h>
+
+volatile int mouse_x = 0;
+volatile int mouse_y = 0;
+
+// Fare interrupt handler placeholder
+void mouse_interrupt_handler() {
+    // Gerçek sürücüde burası fare verilerini okur ve mouse_x, mouse_y günceller
+}
+
+// Fare başlat
+void init_mouse() {
+    // PS/2 mouse initialization kodları
+    // IRQ ve port ayarları
+}
+
+// Fare koordinatlarını oku
+void get_mouse_position(int *x, int *y) {
+    *x = mouse_x;
+    *y = mouse_y;
+}
+
+// system/kernel/keyboard.c
+#include <stdint.h>
+
+volatile char last_key = 0;
+
+// Klavye interrupt handler
+void keyboard_interrupt_handler() {
+    // PS/2 porttan son tuşu oku
+    // last_key değişkenine kaydet
+}
+
+// Klavyeyi başlat
+void init_keyboard() {
+    // IRQ ve PS/2 port ayarları
+}
+
+// Son tuşu oku
+char get_key() {
+    return last_key;
+}
+void menu_loop() {
+    draw_menu();
+    while(1) {
+        int x, y;
+        get_mouse_position(&x, &y);
+
+        int click = 0; // tıklama algılanacak
+        if(click) {
+            check_click(x, y);
+        }
+
+        char key = get_key();
+        if(key) {
+            // Klavye ile menüde gezinme
+        }
+    }
+}
