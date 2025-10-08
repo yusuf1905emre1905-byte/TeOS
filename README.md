@@ -1,2 +1,2 @@
 # TeOS
-: TeOS – Gerçek PC’de çalışan bootable işletim sistemi
+TeOS – Gerçek PC’de çalışan bootable işletim sistemi
