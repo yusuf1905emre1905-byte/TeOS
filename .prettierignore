@@ -1,0 +1,20 @@
+# Derlenmiş dosyalar
+*.o
+*.bin
+*.iso
+
+# Sistem ve kernel dosyaları (formatlanmasın)
+system/kernel/
+system/boot/
+
+# IDE ve proje dosyaları
+.vscode/
+.idea/
+
+# Log ve geçici dosyalar
+log/
+*.log
+
+# Uygulama kaynakları (opsiyonel, sadece kendi stilin için)
+apps/
+resources/
