@@ -27,3 +27,46 @@ void kmain() {
         // Buraya fare, klavye ve uygulama yükleme kodları eklenecek
     }
 }
+// system/kernel/apps.c
+#include <stdint.h>
+#include <string.h>
+
+typedef struct {
+    const char* name;
+    void (*launch)();
+} App;
+
+// Uygulama fonksiyonları
+void launch_Takky() { /* Takky başlat */ }
+void launch_TeNotePRO() { /* Not uygulaması başlat */ }
+void launch_TeStore() { /* TeStore başlat */ }
+void launch_TeClock() { /* Saat uygulaması başlat */ }
+void launch_TeCalendar() { /* Takvim başlat */ }
+void launch_TeWallpaper() { /* Wallpaper başlat */ }
+void launch_TeSecurity() { /* Güvenlik başlat */ }
+void launch_TeLearning() { /* Dil öğrenme başlat */ }
+void launch_TEDEV() { /* Geliştirici paneli başlat */ }
+void launch_TPKCreator() { /* TPK Creator başlat */ }
+
+// Tüm uygulamaların listesi
+App apps[] = {
+    {"Takky", launch_Takky},
+    {"TeNotePRO", launch_TeNotePRO},
+    {"TeStore", launch_TeStore},
+    {"TeClock", launch_TeClock},
+    {"TeCalendar", launch_TeCalendar},
+    {"TeWallpaper", launch_TeWallpaper},
+    {"TeSecurity", launch_TeSecurity},
+    {"TeLearning", launch_TeLearning},
+    {"TEDEV", launch_TEDEV},
+    {"TPKCreator", launch_TPKCreator}
+};
+
+#define TOTAL_APPS (sizeof(apps)/sizeof(App))
+
+// Uygulama başlatma fonksiyonu
+void launch_app(int index) {
+    if(index < 0 || index >= TOTAL_APPS) return;
+    apps[index].launch();
+}
+
