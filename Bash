@@ -6,3 +6,13 @@ mkdir -p isodir/boot/grub
 cp kernel.bin isodir/boot/
 cp ../boot/grub.cfg isodir/boot/grub/
 grub-mkrescue -o TeOS.iso isodir
+
+TeOS/
+├─ system/
+│   ├─ kernel/main.c
+│   ├─ boot/grub.cfg
+│   └─ config.h
+├─ apps/       → tüm uygulamalar
+├─ data/       → kullanıcı verileri
+└─ resources/  → logo, ses, animasyon
+
