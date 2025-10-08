@@ -17,7 +17,7 @@ Ana menüde tüm uygulamalar tıklanabilir ve fare/klavye ile kontrol edilebilir
 - i686-elf-gcc ve i686-elf-ld
 - GRUB ve grub-mkrescue
 - (Opsiyonel) VirtualBox veya QEMU test için
-- 
+ 
 Dikkat: ISO gerçek PC’de de çalışır, QEMU/VirtualBox kullanmak zorunlu değildir.
 
 ## Kurulum ve Derleme
