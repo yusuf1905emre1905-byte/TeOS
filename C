@@ -293,3 +293,36 @@ void edit_profile() {
     get_user_input(user_profile.avatar);
     save_profile();
 }
+
+TeOS/
+├─ system/
+├─ apps/
+├─ resources/
+├─ data/
+├─ manpages/
+├─ example/
+├─ log/
+├─ cmd/
+├─ .github/
+├─ go.mod
+├─ go.sum
+├─ goreleaser.yml
+├─ .gitignore
+├─ .prettierignore
+└─ README.md
+cd /path/to/TeOS
+git init
+git add .
+git commit -m "Initial commit: TeOS full OS structure"
+git branch -M main
+git remote add origin https://github.com/username/TeOS.git
+git push -u origin main
+
+cd system/kernel
+i686-elf-gcc -ffreestanding -c main.c -o main.o
+i686-elf-ld -Ttext 0x1000 -o kernel.bin main.o --oformat binary
+
+mkdir -p isodir/boot/grub
+cp kernel.bin isodir/boot/
+cp boot/grub.cfg isodir/boot/grub/
+grub-mkrescue -o TeOS.iso isodir
