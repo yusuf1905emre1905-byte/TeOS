@@ -1,0 +1,29 @@
+// system/kernel/main.c
+#include <stdint.h>
+
+// Multiboot header (GRUB için)
+__attribute__((section(".multiboot")))
+const uint32_t multiboot_header[] = {
+    0x1BADB002,  // magic
+    0x0,         // flags
+    -(0x1BADB002) // checksum
+};
+
+// Video belleği için pointer
+volatile char *video_memory = (volatile char *)0xB8000;
+
+// Kernel ana fonksiyonu
+void kmain() {
+    const char *message = "Hello User! 🔨TeOS🔨";
+
+    // Ekrana mesaj yaz
+    for(int i = 0; message[i] != '\0'; i++) {
+        video_memory[i*2] = message[i];      // karakter
+        video_memory[i*2+1] = 0x0F;          // renk
+    }
+
+    // Sonsuz döngü (OS açık kalır)
+    while(1) {
+        // Buraya fare, klavye ve uygulama yükleme kodları eklenecek
+    }
+}
