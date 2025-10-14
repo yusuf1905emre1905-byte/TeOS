@@ -1,13 +1,15 @@
-# Derlenmiş dosyalar
+# build artifacts
 *.o
+*.elf
 *.bin
 *.iso
+isodir/
 
-# IDE ve sistem dosyaları
-*.swp
-*.DS_Store
-.idea/
+# editors
 .vscode/
+.idea/
+*.swp
+.DS_Store
 
-# Log dosyaları
+# logs
 *.log
