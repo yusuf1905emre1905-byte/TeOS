@@ -1,0 +1,22 @@
+
+---
+
+## 8) Commit & Push adımları (özet)
+Terminalde repo kökünde:
+
+```bash
+git add system/kernel/linker.ld
+git add system/kernel/main.c
+git add system/boot/grub.cfg
+git add system/kernel/Makefile
+git add Makefile
+git add .gitignore
+git add README.md
+git commit -m "Add real bootable kernel, linker, grub and build files"
+git push origin main
+sudo apt update
+sudo apt install build-essential nasm grub-pc-bin xorriso qemu-system-x86
+# cross-compiler istersen: x86_64-elf-gcc toolchain kurman gerekir.
+make build
+make iso
+qemu-system-x86_64 -cdrom TeOS.iso -m 512
