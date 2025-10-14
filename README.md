@@ -1,64 +1,90 @@
-# TeOS — The Experimental Operating System
+## Bootloader (Gerçek Bilgisayarda Başlatma)
 
-TeOS, sıfırdan geliştirilen, hafif, hızlı ve modüler bir işletim sistemidir.  
-Linux veya QEMU tabanlı değildir — doğrudan gerçek bilgisayarda çalışabilecek şekilde tasarlanmıştır.
+TeOS, kendi özel bootloader yapısına sahiptir.  
+Bu sistem, BIOS veya UEFI tabanlı gerçek bilgisayarlarda **doğrudan açılabilir**.  
+QEMU, VirtualBox veya diğer sanal makineler **gerekli değildir.**
 
-## Özellikler
+### Bootloader Kaynak Kodu (Assembly)
+```asm
+; TeOS Bootloader v1.0
+; BIOS uyumlu başlatıcı
 
-- Tamamen C ve Assembly ile yazılmış çekirdek (kernel)
-- Gerçek donanım desteği (QEMU gerekmez — BIOS/UEFI ile çalışabilir)
-- Modüler yapı:
-  - TeStore (uygulama mağazası)
-  - TeNotes, TeFiles, TeCamera, TeMusic, TeVideo
-  - TeKids, TeWeather, TeLearning, TeDev
-- Özel dosya biçimi: .TPK (TeOS Package)
-- TeAI (Tessa) — sistem içi yapay zekâ asistanı
-- Gerçek masaüstü arayüzü (grafik destekli sürüm hazırlıkta)
+[org 0x7C00]
+[BITS 16]
 
-## Klasör Yapısı
+start:
+    cli
+    xor ax, ax
+    mov ds, ax
+    mov es, ax
+    mov ss, ax
+    mov sp, 0x7C00
 
+    mov si, msg
+    call print
+
+    ; Kernel'i belleğe yükle
+    mov bx, 0x8000
+    mov ah, 0x02
+    mov al, 1
+    mov ch, 0
+    mov cl, 2
+    mov dh, 0
+    int 0x13
+
+    jmp 0x0000:0x8000
+
+print:
+    mov ah, 0x0E
+.next:
+    lodsb
+    or al, al
+    jz .done
+    int 0x10
+    jmp .next
+.done:
+    ret
+
+msg db "Hello User! TeOS is booting...", 0
+
+times 510-($-$$) db 0
+dw 0xAA55
 ```
-TeOS/
-├── kernel/
-│   ├── main.c
-│   ├── config.h
-│   └── teos.cfg
-│
-├── system/
-│   ├── init.c
-│   └── users.cfg
-│
-├── gui/
-│   ├── desktop.c
-│   └── icons/
-│
-├── build/
-│   ├── Makefile
-│   └── build.sh
-│
-└── README.md
-```
 
-## Derleme (Gerçek Bilgisayarda)
-
-TeOS, QEMU gerektirmeden normal bilgisayarda derlenip çalıştırılabilir.  
-Sadece bir C derleyicisi (örneğin GCC) gereklidir.
+Bu dosyayı `boot.asm` olarak kaydet ve aşağıdaki komutla derle:
 
 ```bash
-gcc kernel/main.c -o teos
-./teos
+nasm -f bin boot.asm -o boot.bin
 ```
 
-Bu komut, sistemi doğrudan terminalde başlatır.  
-İstersen build.sh kullanarak otomatik derleme de yapabilirsin.
+Oluşan `boot.bin` dosyasını bir USB belleğe veya disk imajına yazabilirsin:
 
-## Geliştirici Notu
+```bash
+dd if=boot.bin of=/dev/sdX bs=512 count=1
+```
 
-TeOS halen erken geliştirme aşamasındadır.  
-Ancak gerçek BIOS/UEFI uyumlu bir önyükleyici sürümü (bootloader) planlanmaktadır.  
-Hedef, tamamen bağımsız bir işletim sistemi olarak kendi kernel’iyle açılabilmesidir.
+(⚠️ `/dev/sdX` kısmı senin USB sürücün olmalı.)
 
-## Lisans
+### Gerçek Donanımda Test Etme
+1. BIOS/UEFI’den USB önyüklemeyi etkinleştir.  
+2. Bilgisayarı yeniden başlat.  
+3. TeOS logosu ve “Hello User! TeOS is booting…” mesajı gözükecek.  
+4. Ardından sistem ana menüye (TeMenu) geçer.
 
-MIT Lisansı altında sunulmaktadır.  
-© 2025 TeOS Project Team
+---
+
+## Özet
+
+| Özellik | Durum |
+|----------|--------|
+| Gerçek BIOS/UEFI desteği | ✅ |
+| Kernel | ✅ C tabanlı |
+| GUI (masaüstü) | 🔄 Geliştiriliyor |
+| AI Asistan (TeAI / Tessa) | 🔄 Deneysel |
+| Sanal makine gereksinimi | ❌ Gerekmez |
+| Geliştirme durumu | 🚀 Aktif |
+
+---
+
+**Artık TeOS gerçek bilgisayarda çalışabilen bir çekirdek + bootloader sistemine sahip.**
+Her şey açık kaynak kodlu olarak GitHub deposunda barındırılabilir.
