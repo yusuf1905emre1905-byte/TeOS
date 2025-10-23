@@ -379,4 +379,16 @@ void kmain(void) {
         __asm__ volatile ("hlt");
     }
 }
+// TeOS kernel main
+void main() {
+    char *vidmem = (char*)0xb8000;
+    const char *msg = "Hello User! Welcome to TeOS.";
+    int i = 0;
+    while (msg[i]) {
+        vidmem[i*2] = msg[i];
+        vidmem[i*2 + 1] = 0x07; // gri beyaz renk
+        i++;
+    }
+    for(;;); // Sonsuz döngü
+}
 
