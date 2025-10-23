@@ -1,0 +1,11 @@
+TeOS/
+ ├─ system/
+ │   ├─ kernel/
+ │   │   ├─ main.c
+ │   │   ├─ Makefile
+ │   └─ boot/
+ │       └─ grub.cfg
+ ├─ boot.asm
+ ├─ Makefile
+ ├─ README.md
+ └─ teos.cfg
