@@ -34,3 +34,4 @@ cp system/kernel/kernel.bin isodir/boot/
 cp system/boot/grub.cfg isodir/boot/grub/
 grub-mkrescue -o TeOS.iso isodir
 
+sudo dd if=TeOS.iso of=/dev/sdX bs=4M status=progress && sync
