@@ -28,4 +28,9 @@ grub-mkrescue -o TeOS.iso isodir
 qemu-system-i386 -cdrom TeOS.iso
 
 sudo dd if=TeOS.iso of=/dev/sdX bs=4M status=progress && sync
+cd /path/to/TeOS
+mkdir -p isodir/boot/grub
+cp system/kernel/kernel.bin isodir/boot/
+cp system/boot/grub.cfg isodir/boot/grub/
+grub-mkrescue -o TeOS.iso isodir
 
