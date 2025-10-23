@@ -1,3 +1,14 @@
+TARGET = kernel.bin
+CC = gcc
+CFLAGS = -ffreestanding -O2 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -m32
+LDFLAGS = -Ttext 0x1000 --oformat binary
+
+$(TARGET): main.c
+	$(CC) $(CFLAGS) -o $(TARGET) main.c $(LDFLAGS)
+
+clean:
+	rm -f $(TARGET)
+
 // system/kernel/main.c
 #include <stdint.h>
 
