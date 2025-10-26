@@ -667,4 +667,12 @@ int main() {
 
     return 0;
 }
+#include <stdio.h>
+#include <stdlib.h>
+
+void kilitEkrani() {
+    printf("\n🔒 Ekran kilitlendi. Açmak için PIN girin: ");
+    char pin[10];
+
+
 
