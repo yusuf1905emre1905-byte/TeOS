@@ -1,0 +1,116 @@
+{
+  "welcome": "Hello User! TeOS Başlatıldı",
+  "shutdown": "Kapat",
+  "tedev": "TEDEV açıldı! TPK yükleme hazır.",
+  "tekonAI": "TekonAI aktif!",
+  "takky": "Takky açıldı!",
+  "tefiles": "TeFiles açıldı!",
+  "testore": "Uygulama mağazası açıldı!",
+  "notep": "NotePRO açıldı!",
+  "weather": "TeWeather açıldı!",
+  "music": "TeMusic açıldı!",
+  "gallery": "TeGallery açıldı!",
+  "camera": "TeCamera açıldı!",
+  "video": "TeVideo açıldı!",
+  "quickspace": "QuickSpace paneli açıldı!",
+  "security": "TeSecurity açıldı!"
+}
+{
+  "welcome": "Hello User! TeOS has started",
+  "shutdown": "Shutdown",
+  "tedev": "TEDEV opened! TPK upload ready.",
+  "tekonAI": "TekonAI is active!",
+  "takky": "Takky opened!",
+  "tefiles": "TeFiles opened!",
+  "testore": "App Store opened!",
+  "notep": "NotePRO opened!",
+  "weather": "TeWeather opened!",
+  "music": "TeMusic opened!",
+  "gallery": "TeGallery opened!",
+  "camera": "TeCamera opened!",
+  "video": "TeVideo opened!",
+  "quickspace": "QuickSpace panel opened!",
+  "security": "TeSecurity opened!"
+}
+#include <QApplication>
+#include <QWidget>
+#include <QPushButton>
+#include <QMessageBox>
+#include <QVBoxLayout>
+#include <QLabel>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QFile>
+#include <QString>
+#include <vector>
+#include <functional>
+
+struct AppIcon {
+    QString name;
+    QString emoji;
+    std::function<void()> action;
+};
+
+QJsonObject loadLanguage(const QString& langFile) {
+    QFile file(langFile);
+    if (!file.open(QIODevice::ReadOnly)) return QJsonObject();
+    QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
+    file.close();
+    return doc.object();
+}
+
+class MainWindow : public QWidget {
+public:
+    MainWindow(const QJsonObject& lang, const std::vector<AppIcon>& apps) {
+        setWindowTitle("🔨 TeOS v1.0 🔨");
+        resize(1000, 700);
+
+        QVBoxLayout* layout = new QVBoxLayout();
+        QLabel* welcome = new QLabel(lang["welcome"].toString());
+        layout->addWidget(welcome);
+
+        for(auto& app : apps) {
+            QPushButton* btn = new QPushButton(app.name + " " + app.emoji);
+            layout->addWidget(btn);
+            QObject::connect(btn, &QPushButton::clicked, app.action);
+        }
+
+        QPushButton* shutdownBtn = new QPushButton(lang["shutdown"].toString());
+        layout->addWidget(shutdownBtn);
+        QObject::connect(shutdownBtn, &QPushButton::clicked, [](){
+            QMessageBox::information(nullptr, "TeOS", "Bilgisayar kapanıyor...");
+            qApp->quit();
+        });
+
+        setLayout(layout);
+    }
+};
+
+int main(int argc, char *argv[]) {
+    QApplication app(argc, argv);
+
+    // Kullanıcı dil seçimi (örnek)
+    QString userLang = "lang_tr.json"; // Burayı kullanıcı ayarından değiştirebilir
+    QJsonObject lang = loadLanguage(userLang);
+
+    std::vector<AppIcon> apps = {
+        {"TEDEV", "📦", [=](){ QMessageBox::information(nullptr, "TEDEV", lang["tedev"].toString()); }},
+        {"TekonAI", "💬", [=](){ QMessageBox::information(nullptr, "TekonAI", lang["tekonAI"].toString()); }},
+        {"Takky", "🐱", [=](){ QMessageBox::information(nullptr, "Takky", lang["takky"].toString()); }},
+        {"TeFiles", "📁", [=](){ QMessageBox::information(nullptr, "TeFiles", lang["tefiles"].toString()); }},
+        {"TeStore", "🛒", [=](){ QMessageBox::information(nullptr, "TeStore", lang["testore"].toString()); }},
+        {"NotePRO", "📝", [=](){ QMessageBox::information(nullptr, "NotePRO", lang["notep"].toString()); }},
+        {"TeWeather", "☀️", [=](){ QMessageBox::information(nullptr, "TeWeather", lang["weather"].toString()); }},
+        {"TeMusic", "🎵", [=](){ QMessageBox::information(nullptr, "TeMusic", lang["music"].toString()); }},
+        {"TeGallery", "🖼️", [=](){ QMessageBox::information(nullptr, "TeGallery", lang["gallery"].toString()); }},
+        {"TeCamera", "📸", [=](){ QMessageBox::information(nullptr, "TeCamera", lang["camera"].toString()); }},
+        {"TeVideo", "🎬", [=](){ QMessageBox::information(nullptr, "TeVideo", lang["video"].toString()); }},
+        {"QuickSpace", "⚡", [=](){ QMessageBox::information(nullptr, "QuickSpace", lang["quickspace"].toString()); }},
+        {"TeSecurity", "🔒", [=](){ QMessageBox::information(nullptr, "TeSecurity", lang["security"].toString()); }}
+    };
+
+    MainWindow window(lang, apps);
+    window.show();
+
+    return app.exec();
+}
