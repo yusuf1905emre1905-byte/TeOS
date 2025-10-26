@@ -505,3 +505,75 @@ void mouse_move(int dx, int dy);
 void mouse_click(int button);
 
 #endif
+// power.c — TeOS Güç Yönetimi Sistemi
+
+#include "power.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h> // sleep()
+
+void power_menu() {
+    int secim;
+
+    printf("\n========== 🔋 TeOS Güç Menüsü ==========\n");
+    printf("1. Bilgisayarı Kapat\n");
+    printf("2. Yeniden Başlat\n");
+    printf("3. Ekranı Kilitle\n");
+    printf("4. İptal\n");
+    printf("========================================\n");
+    printf("Seçiminiz: ");
+    scanf("%d", &secim);
+
+    switch (secim) {
+        case 1:
+            te_shutdown();
+            break;
+        case 2:
+            te_restart();
+            break;
+        case 3:
+            te_lock();
+            break;
+        default:
+            printf("İşlem iptal edildi.\n");
+            break;
+    }
+}
+
+void te_shutdown() {
+    printf("\n[TeOS] Sistem kapatılıyor...\n");
+    sleep(2);
+    printf("[TeOS] Güle güle 👋\n");
+    exit(0);
+}
+
+void te_restart() {
+    printf("\n[TeOS] Sistem yeniden başlatılıyor...\n");
+    sleep(2);
+    // Normalde burada sistem yeniden başlatma komutu olurdu
+    printf("[TeOS] Yeniden başlatıldı!\n");
+}
+
+void te_lock() {
+    char parola[20];
+    printf("\n[TeOS] Sistem kilitlendi 🔒\n");
+    printf("Kilit açmak için şifre girin: ");
+    scanf("%s", parola);
+
+    if (strcmp(parola, "teos") == 0) {
+        printf("[TeOS] Kilit açıldı ✅\n");
+    } else {
+        printf("[TeOS] Hatalı parola! Sistem kapatılıyor.\n");
+        te_shutdown();
+    }
+}
+#ifndef TE_POWER_H
+#define TE_POWER_H
+
+void power_menu();
+void te_shutdown();
+void te_restart();
+void te_lock();
+
+#endif
