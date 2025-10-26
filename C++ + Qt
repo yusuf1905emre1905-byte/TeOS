@@ -134,3 +134,67 @@ int main(int argc, char *argv[]) {
     return app.exec();
 }
 
+#include <QApplication>
+#include <QWidget>
+#include <QPushButton>
+#include <QMessageBox>
+#include <QVBoxLayout>
+#include <QLabel>
+#include <QTimer>
+#include <vector>
+#include <QString>
+
+// Basit uygulama simgesi sınıfı
+struct AppIcon {
+    QString name;
+    QString emoji;
+    std::function<void()> action;
+};
+
+class MainWindow : public QWidget {
+    Q_OBJECT
+public:
+    MainWindow(const std::vector<AppIcon>& apps) {
+        setWindowTitle("🔨 TeOS v1.0 🔨");
+        resize(800, 600);
+
+        QVBoxLayout* layout = new QVBoxLayout();
+
+        QLabel* welcome = new QLabel("Hello User! TeOS Başlatıldı");
+        layout->addWidget(welcome);
+
+        for(auto& app : apps) {
+            QPushButton* btn = new QPushButton(app.name + " " + app.emoji);
+            layout->addWidget(btn);
+            QObject::connect(btn, &QPushButton::clicked, app.action);
+        }
+
+        QPushButton* shutdownBtn = new QPushButton("Kapat");
+        layout->addWidget(shutdownBtn);
+        QObject::connect(shutdownBtn, &QPushButton::clicked, [](){
+            QMessageBox::information(nullptr, "TeOS", "Bilgisayar kapanıyor...");
+            qApp->quit();
+        });
+
+        setLayout(layout);
+    }
+};
+
+int main(int argc, char *argv[]) {
+    QApplication app(argc, argv);
+
+    // Uygulama listesi (simülasyon)
+    std::vector<AppIcon> apps = {
+        {"TEDEV", "📦", [](){ QMessageBox::information(nullptr, "TEDEV", "TEDEV açıldı! TPK yükleme hazır."); }},
+        {"TekonAI", "💬", [](){ QMessageBox::information(nullptr, "TekonAI", "TekonAI aktif!"); }},
+        {"Takky", "🐱", [](){ QMessageBox::information(nullptr, "Takky", "Takky açıldı!"); }},
+        {"TeFiles", "📁", [](){ QMessageBox::information(nullptr, "TeFiles", "TeFiles açıldı!"); }},
+        {"TeBrowser", "🌐", [](){ QMessageBox::information(nullptr, "TeBrowser", "Tarayıcı açıldı!"); }},
+        {"QuickSpace", "⚡", [](){ QMessageBox::information(nullptr, "QuickSpace", "QuickSpace paneli açıldı!"); }}
+    };
+
+    MainWindow window(apps);
+    window.show();
+
+    return app.exec();
+}
