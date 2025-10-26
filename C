@@ -577,3 +577,41 @@ void te_restart();
 void te_lock();
 
 #endif
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main() {
+    char temail[50];
+    char parola[50];
+    char pin[10];
+    FILE *fp;
+
+    printf("🔨 TeOS Kurulum Sihirbazı 🔨\n");
+    printf("-----------------------------\n");
+    printf("Hoş geldin kullanıcı!\n");
+    printf("Lütfen bir TEmail (TeOS e-postası) oluştur: ");
+    scanf("%s", temail);
+
+    printf("Bir parola belirle: ");
+    scanf("%s", parola);
+
+    printf("4 haneli bir PIN belirle: ");
+    scanf("%s", pin);
+
+    fp = fopen("user.cfg", "w");
+    if (fp == NULL) {
+        printf("HATA: Kullanıcı dosyası oluşturulamadı!\n");
+        return 1;
+    }
+
+    fprintf(fp, "TEMAIL=%s\n", temail);
+    fprintf(fp, "PAROLA=%s\n", parola);
+    fprintf(fp, "PIN=%s\n", pin);
+    fclose(fp);
+
+    printf("\nKurulum tamamlandı ✅\n");
+    printf("Sistem yeniden başlatılıyor...\n");
+    return 0;
+}
+
