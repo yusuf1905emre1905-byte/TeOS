@@ -674,5 +674,80 @@ void kilitEkrani() {
     printf("\n🔒 Ekran kilitlendi. Açmak için PIN girin: ");
     char pin[10];
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "power.h"  // Kapat, Yeniden Başlat, Kilitle
+#include "mouse.h"  // Fare desteği (ileride)
+#include "keyboard_map.h" // TeBoard klavye
+
+void kilitEkrani(char* saved_pin) {
+    char pin[10];
+    printf("\n🔒 Ekran kilitlendi. PIN girin: ");
+    scanf("%s", pin);
+
+    if (strcmp(pin, saved_pin) == 0) {
+        printf("[TeOS] Kilit açıldı ✅\n");
+    } else {
+        printf("[TeOS] Hatalı PIN! Sistem kilitli kalıyor.\n");
+    }
+}
+
+void anaMenu(char* saved_pin) {
+    int secim;
+    while (1) {
+        printf("\n===== 🔨 TeOS Ana Menüsü 🔨 =====\n");
+        printf("1️⃣  Uygulamalar\n");
+        printf("2️⃣  Ayarlar\n");
+        printf("3️⃣  TeStore\n");
+        printf("4️⃣  TekonAI\n");
+        printf("5️⃣  Bilgisayarı Kapat\n");
+        printf("6️⃣  Yeniden Başlat\n");
+        printf("7️⃣  Ekranı Kilitle\n");
+        printf("0️⃣  Çıkış\n");
+        printf("Seçiminiz: ");
+        scanf("%d", &secim);
+
+        switch (secim) {
+            case 1:
+                printf("[TeOS] Uygulamalar açılıyor...\n");
+                break;
+            case 2:
+                printf("[TeOS] Ayarlar açılıyor...\n");
+                break;
+            case 3:
+                printf("[TeOS] TeStore açılıyor...\n");
+                break;
+            case 4:
+                printf("[TeOS] TekonAI aktif! 💬\n");
+                break;
+            case 5:
+                te_shutdown();
+                break;
+            case 6:
+                te_restart();
+                break;
+            case 7:
+                kilitEkrani(saved_pin);
+                break;
+            case 0:
+                printf("[TeOS] Çıkış yapılıyor...\n");
+                return;
+            default:
+                printf("Geçersiz seçim!\n");
+                break;
+        }
+    }
+}
+
+int main() {
+    // Örnek PIN; ileride user.cfg'den okunacak
+    char saved_pin[10] = "2580";
+
+    printf("TeOS Ana Menü Yükleniyor...\n");
+    anaMenu(saved_pin);
+
+    return 0;
+}
 
 
