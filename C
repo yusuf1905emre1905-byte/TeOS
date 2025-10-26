@@ -456,4 +456,8 @@ void main() {
     for (volatile int i = 0; i < 1000000; i++); // Kisa bekleme
     menu();
 }
+void main() {
+    gui_main(); // Masaüstü arayüzünü başlat
+}
+extern void gui_main();
 
