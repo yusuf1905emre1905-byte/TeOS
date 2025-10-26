@@ -819,3 +819,142 @@ int main() {
     return 0;
 }
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h> // sleep() için Linux
+
+// ------------------- Global Değişkenler -------------------
+char saved_pin[10] = "2580"; // Örnek PIN
+int batarya = 100;
+int wifi_connected = 0;
+
+// ------------------- Yardımcı Fonksiyonlar -------------------
+void printLogo() {
+    printf("████████╗███████╗ ██████╗ ███████╗\n");
+    printf("╚══██╔══╝██╔════╝██╔═══██╗██╔════╝\n");
+    printf("   ██║   █████╗  ██║   ██║███████╗\n");
+    printf("   ██║   ██╔══╝  ██║   ██║╚════██║\n");
+    printf("   ██║   ███████╗╚██████╔╝███████║\n");
+    printf("   ╚═╝   ╚══════╝ ╚═════╝ ╚══════╝\n");
+    printf("             TeOS v1.0\n\n");
+}
+
+void kilitEkrani() {
+    char pin[10];
+    printf("\n🔒 Ekran kilitlendi. PIN girin: ");
+    scanf("%s", pin);
+
+    if (strcmp(pin, saved_pin) == 0) {
+        printf("[TeOS] Kilit açıldı ✅\n");
+    } else {
+        printf("[TeOS] Hatalı PIN! Sistem kilitli kalıyor.\n");
+    }
+}
+
+void te_shutdown() {
+    printf("[TeOS] Bilgisayar kapanıyor...\n");
+    exit(0);
+}
+
+void te_restart() {
+    printf("[TeOS] Sistem yeniden başlatılıyor...\n");
+    sleep(2);
+    system("clear");
+    main();
+}
+
+void print_belge(const char *filename) {
+    FILE *fp = fopen(filename, "r");
+    if (!fp) {
+        printf("HATA: Dosya okunamadı!\n");
+        return;
+    }
+    char line[256];
+    printf("\n📄 Belge içeriği:\n");
+    while (fgets(line, sizeof(line), fp)) {
+        printf("%s", line);
+    }
+    fclose(fp);
+    printf("\n[Yazdırma tamamlandı]\n");
+}
+
+void sarjEt() {
+    while (batarya < 100) {
+        batarya += 10;
+        printf("🔋 Şarj: %d%%\n", batarya);
+        sleep(1);
+    }
+    printf("[TeOS] Batarya doldu ✅\n");
+}
+
+void wifiAyar() {
+    char ssid[50], pwd[50];
+    printf("Wi-Fi adı oluşturun: ");
+    scanf("%s", ssid);
+    printf("Şifre belirleyin: ");
+    scanf("%s", pwd);
+    wifi_connected = 1;
+    printf("Wi-Fi '%s' aktif, bağlı ✅\n", ssid);
+}
+
+// ------------------- Ana Menü -------------------
+void anaMenu() {
+    int secim;
+    printLogo();
+    while (1) {
+        printf("\n===== 🔨 TeOS Ana Menüsü 🔨 =====\n");
+        printf("Batarya: %d%% | Wi-Fi: %s\n", batarya, wifi_connected ? "Bağlı" : "Kapalı");
+        printf("[1] Uygulamalar  [2] Ayarlar  [3] TE Store\n");
+        printf("[4] TekonAI       [5] Takky     [6] TeFiles\n");
+        printf("[7] TeWeather     [8] TeMusic   [9] TeGallery\n");
+        printf("[10] TeBrowser    [11] QuickSpace  [12] Yazıcı\n");
+        printf("[13] Kilitle      [14] Yeniden Başlat  [15] Kapat\n");
+        printf("[0] Çıkış\n");
+        printf("Seçiminiz: ");
+        scanf("%d", &secim);
+
+        switch(secim) {
+            case 1: printf("[TeOS] Uygulamalar açılıyor...\n"); break;
+            case 2: wifiAyar(); break;
+            case 3: printf("[TeOS] TE Store açılıyor...\n"); break;
+            case 4: printf("[TeOS] TekonAI aktif! 💬\n"); break;
+            case 5: printf("[TeOS] Takky açıldı 🐱\n"); break;
+            case 6: printf("[TeOS] TeFiles açıldı 📁\n"); break;
+            case 7: printf("[TeOS] TeWeather açıldı 🌤️\n"); break;
+            case 8: printf("[TeOS] TeMusic açıldı 🎵\n"); break;
+            case 9: printf("[TeOS] TeGallery açıldı 🖼️\n"); break;
+            case 10: printf("[TeOS] TeBrowser açıldı 🌐\n"); break;
+            case 11: printf("[TeOS] QuickSpace aktif ⚡\n"); break;
+            case 12: print_belge("ornek_belge.txt"); break;
+            case 13: kilitEkrani(); break;
+            case 14: te_restart(); break;
+            case 15: te_shutdown(); break;
+            case 0: printf("[TeOS] Çıkış yapılıyor...\n"); return;
+            default: printf("Geçersiz seçim!\n"); break;
+        }
+
+        // Batarya simülasyonu
+        batarya -= 1;
+        if (batarya <= 0) {
+            printf("🔋 Batarya bitti! Şarja takın.\n");
+            sarjEt();
+        }
+    }
+}
+
+// ------------------- Main -------------------
+int main() {
+    char pin[10];
+    printf("Hello User! TeOS başlatılıyor...\n");
+    printf("PIN girin: ");
+    scanf("%s", pin);
+
+    if (strcmp(pin, saved_pin) != 0) {
+        printf("Hatalı PIN! Sistem kilitli.\n");
+        return 1;
+    }
+
+    anaMenu();
+    return 0;
+}
