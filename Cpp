@@ -1,11 +1,68 @@
-TeOS/
- ├─ system/
- │   ├─ kernel/
- │   │   ├─ main.c
- │   │   ├─ Makefile
- │   └─ boot/
- │       └─ grub.cfg
- ├─ boot.asm
- ├─ Makefile
- ├─ README.md
- └─ teos.cfg
+#include <QApplication>
+#include <QWidget>
+#include <QPushButton>
+#include <QMessageBox>
+#include <QVBoxLayout>
+#include <QLabel>
+
+// Örnek: Ana ekran simgeleri
+class MainWindow : public QWidget {
+public:
+    MainWindow() {
+        setWindowTitle("🔨 TeOS v1.0 🔨");
+        resize(800, 600);
+
+        QVBoxLayout* layout = new QVBoxLayout();
+
+        QLabel* welcome = new QLabel("Hello User! TeOS Başlatıldı");
+        layout->addWidget(welcome);
+
+        QPushButton* tedevBtn = new QPushButton("TEDEV");
+        layout->addWidget(tedevBtn);
+
+        QPushButton* tekonAI = new QPushButton("TekonAI");
+        layout->addWidget(tekonAI);
+
+        QPushButton* takkyBtn = new QPushButton("Takky 🐱");
+        layout->addWidget(takkyBtn);
+
+        QPushButton* teFilesBtn = new QPushButton("TeFiles 📁");
+        layout->addWidget(teFilesBtn);
+
+        QPushButton* shutdownBtn = new QPushButton("Kapat");
+        layout->addWidget(shutdownBtn);
+
+        setLayout(layout);
+
+        // Butonlar için basit bağlantılar
+        QObject::connect(shutdownBtn, &QPushButton::clicked, [](){
+            QMessageBox::information(nullptr, "TeOS", "Bilgisayar kapanıyor...");
+            qApp->quit();
+        });
+
+        QObject::connect(tedevBtn, &QPushButton::clicked, [](){
+            QMessageBox::information(nullptr, "TEDEV", "TEDEV açıldı! TPK yükleme hazır.");
+        });
+
+        QObject::connect(tekonAI, &QPushButton::clicked, [](){
+            QMessageBox::information(nullptr, "TekonAI", "TekonAI aktif! 💬");
+        });
+
+        QObject::connect(takkyBtn, &QPushButton::clicked, [](){
+            QMessageBox::information(nullptr, "Takky", "Takky açıldı 🐱");
+        });
+
+        QObject::connect(teFilesBtn, &QPushButton::clicked, [](){
+            QMessageBox::information(nullptr, "TeFiles", "TeFiles açıldı 📁");
+        });
+    }
+};
+
+int main(int argc, char *argv[]) {
+    QApplication app(argc, argv);
+
+    MainWindow window;
+    window.show();
+
+    return app.exec();
+}
