@@ -750,4 +750,72 @@ int main() {
     return 0;
 }
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "power.h"
+#include "mouse.h"
+#include "keyboard_map.h"
+
+void printLogo() {
+    printf("████████╗███████╗ ██████╗ ███████╗\n");
+    printf("╚══██╔══╝██╔════╝██╔═══██╗██╔════╝\n");
+    printf("   ██║   █████╗  ██║   ██║███████╗\n");
+    printf("   ██║   ██╔══╝  ██║   ██║╚════██║\n");
+    printf("   ██║   ███████╗╚██████╔╝███████║\n");
+    printf("   ╚═╝   ╚══════╝ ╚═════╝ ╚══════╝\n");
+    printf("             TeOS v1.0\n\n");
+}
+
+void kilitEkrani(char* saved_pin) {
+    char pin[10];
+    printf("\n🔒 Ekran kilitlendi. PIN girin: ");
+    scanf("%s", pin);
+
+    if (strcmp(pin, saved_pin) == 0) {
+        printf("[TeOS] Kilit açıldı ✅\n");
+    } else {
+        printf("[TeOS] Hatalı PIN! Sistem kilitli kalıyor.\n");
+    }
+}
+
+void anaMenu(char* saved_pin) {
+    int secim;
+    printLogo();
+
+    while (1) {
+        printf("\n===== 🔨 TeOS Ana Menüsü 🔨 =====\n");
+        printf("[1] Uygulamalar\n");
+        printf("[2] Ayarlar\n");
+        printf("[3] TeStore\n");
+        printf("[4] TekonAI\n");
+        printf("[5] Bilgisayarı Kapat\n");
+        printf("[6] Yeniden Başlat\n");
+        printf("[7] Ekranı Kilitle\n");
+        printf("[0] Çıkış\n");
+
+        // Fare ile tıklama simülasyonu
+        printf("\nFare X:%d Y:%d\n", mouse_x, mouse_y);
+        printf("Seçiminiz (1-7): ");
+        scanf("%d", &secim);
+
+        switch (secim) {
+            case 1: printf("[TeOS] Uygulamalar açılıyor...\n"); break;
+            case 2: printf("[TeOS] Ayarlar açılıyor...\n"); break;
+            case 3: printf("[TeOS] TeStore açılıyor...\n"); break;
+            case 4: printf("[TeOS] TekonAI aktif! 💬\n"); break;
+            case 5: te_shutdown(); break;
+            case 6: te_restart(); break;
+            case 7: kilitEkrani(saved_pin); break;
+            case 0: printf("[TeOS] Çıkış yapılıyor...\n"); return;
+            default: printf("Geçersiz seçim!\n"); break;
+        }
+    }
+}
+
+int main() {
+    char saved_pin[10] = "2580"; // Örnek PIN; user.cfg'den okunabilir
+    anaMenu(saved_pin);
+    return 0;
+}
 
