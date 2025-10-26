@@ -1,0 +1,47 @@
+TeOS/
+│
+├─ boot/
+│   ├─ boot.asm            # Bootloader kodu
+│   └─ boot.bin            # Derlenmiş boot dosyası
+│
+├─ kernel/
+│   ├─ kernel.cpp          # Kernel ana mantığı
+│   ├─ kernel.h
+│   ├─ drivers/            # Sürücüler (fare, klavye, ekran, disk)
+│   │   ├─ keyboard.cpp
+│   │   ├─ mouse.cpp
+│   │   └─ display.cpp
+│
+├─ gui/
+│   ├─ main.cpp            # GUI ana pencere
+│   ├─ app_icons.cpp       # Uygulama simgeleri ve işlevleri
+│   ├─ lang/               # Dil dosyaları
+│   │   ├─ lang_tr.json
+│   │   ├─ lang_en.json
+│   │   ├─ lang_ar.json
+│   │   ├─ lang_es.json
+│   │   ├─ lang_fr.json
+│   │   └─ lang_de.json
+│
+├─ apps/
+│   ├─ TEDEV/              # TEDEV simülasyonu
+│   ├─ TekonAI/            # Yapay Zeka
+│   ├─ Takky/              # Sanal Evcil Hayvan
+│   ├─ TeFiles/
+│   ├─ TeStore/
+│   ├─ NotePRO/
+│   ├─ TeWeather/
+│   ├─ TeMusic/
+│   ├─ TeGallery/
+│   ├─ TeCamera/
+│   ├─ TeVideo/
+│   ├─ QuickSpace/
+│   └─ TeSecurity/
+│
+├─ tools/
+│   ├─ TPK_Creator/        # TPK oluşturma ve TEDEV entegrasyonu
+│
+├─ CMakeLists.txt
+├─ Makefile
+├─ README.md
+└─ LICENSE
