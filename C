@@ -402,4 +402,58 @@ void main() {
     }
     for(;;); // Sonsuz döngü
 }
+// === TeOS Kernel v0.2 ===
+// Metin tabanlı ana menü + TekonAI basit etkileşim
+
+#define VIDEO 0xb8000
+#define WIDTH 80
+
+void print(const char *s, int line) {
+    char *v = (char*)VIDEO + line * WIDTH * 2;
+    while (*s) {
+        *v++ = *s++;
+        *v++ = 0x07;
+    }
+}
+
+void clear() {
+    for (int i = 0; i < 80*25*2; i++) ((char*)VIDEO)[i] = 0;
+}
+
+void tekonAI() {
+    clear();
+    print("=== TekonAI Assistant ===", 0);
+    print("Merhaba! Ben TekonAI.", 2);
+    print("Seni dinliyorum... (Simulasyon modu)", 4);
+    print(">> [Kullanici]: (Burada giris bekleniyor...)", 6);
+    print(">> [TekonAI]: Hos geldin! TeOS dunyasina giris yaptin.", 8);
+    for(;;);
+}
+
+void menu() {
+    clear();
+    print("=== TeOS Ana Menu ===", 0);
+    print("1. TeKonAI (AI Asistan)", 2);
+    print("2. Dosyalar", 3);
+    print("3. Ayarlar", 4);
+    print("Bir secim yap (1-3):", 6);
+
+    unsigned char choice;
+    asm volatile("int $0x16" : "=a"(choice)); // BIOS klavye girdisi
+    choice &= 0xFF;
+
+    if (choice == '1') tekonAI();
+    else {
+        clear();
+        print("Bu bolum henuz hazir degil.", 2);
+        for(;;);
+    }
+}
+
+void main() {
+    clear();
+    print("Hello User! Welcome to TeOS.", 0);
+    for (volatile int i = 0; i < 1000000; i++); // Kisa bekleme
+    menu();
+}
 
