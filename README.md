@@ -45,4 +45,4 @@
 
 ## Lisans
 - MIT Lisansı
-- 
+  
