@@ -1,90 +1,48 @@
-## Bootloader (Gerçek Bilgisayarda Başlatma)
+# 🔨 TeOS 🔨
 
-TeOS, kendi özel bootloader yapısına sahiptir.  
-Bu sistem, BIOS veya UEFI tabanlı gerçek bilgisayarlarda **doğrudan açılabilir**.  
-QEMU, VirtualBox veya diğer sanal makineler **gerekli değildir.**
+**TeOS** — Gerçek OS hissi veren, kendi kernel'i, GUI'si ve uygulama sistemi olan bir işletim sistemi.  
 
-### Bootloader Kaynak Kodu (Assembly)
-```asm
-; TeOS Bootloader v1.0
-; BIOS uyumlu başlatıcı
+## Özellikler
+- **Kernel + Bootloader + Sürücüler**
+- **Modern GUI** (Windows/Linux/Mac benzeri)
+- **Uygulama simgeleri ve pencereler**
+- **TEDEV ve TPK entegrasyonu**
+- **Uygulamalar**:
+  - **Takky** 🐱 — Sanal evcil hayvan
+  - **TekonAI** 💬 — Yapay Zeka Asistanı
+  - **TeFiles** 📁 — Dosya Yöneticisi
+  - **TeStore** 🛒 — Uygulama Mağazası
+  - **NotePRO** 📝 — Notlar ve doküman yönetimi
+  - **TeWeather** ☀️ — Hava durumu
+  - **TeMusic** 🎵 — Müzik çalar
+  - **TeGallery** 🖼️ — Fotoğraf ve video galerisi
+  - **TeCamera** 📸 — Kamera simülasyonu
+  - **TeVideo / TeMovies** 🎬 — Video oynatıcı
+  - **QuickSpace** ⚡ — Hızlı ayarlar paneli
+  - **TeSecurity** 🔒 — Güvenlik, kötü puan engelleme ve dosya kontrolü
 
-[org 0x7C00]
-[BITS 16]
+## Sistem Özellikleri
+- PIN veya parola ile güvenli giriş
+- Fare ve klavye desteği
+- Batarya ve şarj simülasyonu
+- Yazıcı ve çıktı simülasyonu
+- Saat ve takvim widget’ları
+- Wi-Fi ve hızlı ayarlar (QuickSpace)
 
-start:
-    cli
-    xor ax, ax
-    mov ds, ax
-    mov es, ax
-    mov ss, ax
-    mov sp, 0x7C00
+## Kurulum
+- Bu proje, C++ ve Qt ile geliştirilmiştir.
+- `qmake` veya `CMake` ile derlenebilir.
+- Tüm uygulama simülasyonu GUI üzerinden çalıştırılabilir.
+- TPK dosyaları TEDEV üzerinden yüklenebilir ve ana menüye eklenir.
 
-    mov si, msg
-    call print
+## Test
+- **Önerilen:** Öncelikle QEMU veya sanal makine ile test ediniz.
+- **Not:** Yakında gerçek bilgisayarda test edilebilir, ancak donanım sürücüleri ve bootloader dikkatle uygulanmalıdır.
 
-    ; Kernel'i belleğe yükle
-    mov bx, 0x8000
-    mov ah, 0x02
-    mov al, 1
-    mov ch, 0
-    mov cl, 2
-    mov dh, 0
-    int 0x13
+## Katkıda Bulunmak
+- PR ve katkılar memnuniyetle karşılanır.
+- Lütfen kernel, GUI veya TPK entegrasyonu için açıklama ekleyin.
 
-    jmp 0x0000:0x8000
-
-print:
-    mov ah, 0x0E
-.next:
-    lodsb
-    or al, al
-    jz .done
-    int 0x10
-    jmp .next
-.done:
-    ret
-
-msg db "Hello User! TeOS is booting...", 0
-
-times 510-($-$$) db 0
-dw 0xAA55
-```
-
-Bu dosyayı `boot.asm` olarak kaydet ve aşağıdaki komutla derle:
-
-```bash
-nasm -f bin boot.asm -o boot.bin
-```
-
-Oluşan `boot.bin` dosyasını bir USB belleğe veya disk imajına yazabilirsin:
-
-```bash
-dd if=boot.bin of=/dev/sdX bs=512 count=1
-```
-
-(⚠️ `/dev/sdX` kısmı senin USB sürücün olmalı.)
-
-### Gerçek Donanımda Test Etme
-1. BIOS/UEFI’den USB önyüklemeyi etkinleştir.  
-2. Bilgisayarı yeniden başlat.  
-3. TeOS logosu ve “Hello User! TeOS is booting…” mesajı gözükecek.  
-4. Ardından sistem ana menüye (TeMenu) geçer.
-
----
-
-## Özet
-
-| Özellik | Durum |
-|----------|--------|
-| Gerçek BIOS/UEFI desteği | ✅ |
-| Kernel | ✅ C tabanlı |
-| GUI (masaüstü) | 🔄 Geliştiriliyor |
-| AI Asistan (TeAI / Tessa) | 🔄 Deneysel |
-| Sanal makine gereksinimi | ❌ Gerekmez |
-| Geliştirme durumu | 🚀 Aktif |
-
----
-
-**Artık TeOS gerçek bilgisayarda çalışabilen bir çekirdek + bootloader sistemine sahip.**
-Her şey açık kaynak kodlu olarak GitHub deposunda barındırılabilir.
+## Lisans
+- MIT Lisansı
+- 
