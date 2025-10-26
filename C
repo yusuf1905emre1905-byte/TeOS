@@ -461,3 +461,47 @@ void main() {
 }
 extern void gui_main();
 
+// mouse.c — TeOS Fare Sistemi
+
+#include "mouse.h"
+#include <stdio.h>
+
+int mouse_x = 50;
+int mouse_y = 50;
+
+// Ekran sınırları
+#define SCREEN_WIDTH  800
+#define SCREEN_HEIGHT 600
+
+void mouse_move(int dx, int dy) {
+    mouse_x += dx;
+    mouse_y += dy;
+
+    // Sınırlar
+    if (mouse_x < 0) mouse_x = 0;
+    if (mouse_y < 0) mouse_y = 0;
+    if (mouse_x > SCREEN_WIDTH) mouse_x = SCREEN_WIDTH;
+    if (mouse_y > SCREEN_HEIGHT) mouse_y = SCREEN_HEIGHT;
+
+    printf("[TeMouse] X:%d  Y:%d\n", mouse_x, mouse_y);
+}
+
+void mouse_click(int button) {
+    if (button == 1)
+        printf("[TeMouse] Sol tıklama! (Seçim yapıldı)\n");
+    else if (button == 2)
+        printf("[TeMouse] Sağ tıklama! (Menü açılıyor)\n");
+    else if (button == 3)
+        printf("[TeMouse] Orta tıklama! (Kaydırma)\n");
+}
+
+#ifndef TE_MOUSE_H
+#define TE_MOUSE_H
+
+extern int mouse_x;
+extern int mouse_y;
+
+void mouse_move(int dx, int dy);
+void mouse_click(int button);
+
+#endif
