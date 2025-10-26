@@ -614,4 +614,57 @@ int main() {
     printf("Sistem yeniden başlatılıyor...\n");
     return 0;
 }
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main() {
+    char temail[50], parola[50], pin[10];
+    char saved_temail[50], saved_parola[50], saved_pin[10];
+    FILE *fp;
+
+    printf("🔨 TeOS Giriş Ekranı 🔨\n");
+    printf("------------------------\n");
+
+    // user.cfg dosyasını oku
+    fp = fopen("user.cfg", "r");
+    if (fp == NULL) {
+        printf("HATA: Kullanıcı dosyası bulunamadı! Lütfen önce kurulum yap.\n");
+        return 1;
+    }
+
+    fscanf(fp, "TEMAIL=%s\n", saved_temail);
+    fscanf(fp, "PAROLA=%s\n", saved_parola);
+    fscanf(fp, "PIN=%s\n", saved_pin);
+    fclose(fp);
+
+    // Kullanıcıdan giriş bilgilerini iste
+    printf("TEmail: ");
+    scanf("%s", temail);
+
+    printf("Parola: ");
+    scanf("%s", parola);
+
+    printf("PIN: ");
+    scanf("%s", pin);
+
+    // Doğrulama
+    if (strcmp(temail, saved_temail) == 0 &&
+        strcmp(parola, saved_parola) == 0 &&
+        strcmp(pin, saved_pin) == 0) {
+        printf("\nGiriş başarılı! 🎉\n");
+        printf("Hoş geldin, %s!\n", temail);
+        printf("Sistem yükleniyor...\n");
+        system("sleep 2"); // 2 saniye bekletir (Linux)
+        system("clear");   // Ekranı temizler
+        printf("🔨 TeOS Ana Menüsü 🔨\n");
+        printf("1️⃣  Uygulamalar\n");
+        printf("2️⃣  Ayarlar\n");
+        printf("3️⃣  Bilgisayarı Kapat\n");
+    } else {
+        printf("\n❌ Hatalı giriş bilgisi! Lütfen tekrar deneyin.\n");
+    }
+
+    return 0;
+}
 
