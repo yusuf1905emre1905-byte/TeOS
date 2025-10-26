@@ -198,3 +198,72 @@ int main(int argc, char *argv[]) {
 
     return app.exec();
 }
+
+#include <QApplication>
+#include <QWidget>
+#include <QPushButton>
+#include <QMessageBox>
+#include <QVBoxLayout>
+#include <QLabel>
+#include <vector>
+#include <functional>
+
+struct AppIcon {
+    QString name;
+    QString emoji;
+    std::function<void()> action;
+};
+
+class MainWindow : public QWidget {
+public:
+    MainWindow(const std::vector<AppIcon>& apps) {
+        setWindowTitle("🔨 TeOS v1.0 🔨");
+        resize(1000, 700);
+
+        QVBoxLayout* layout = new QVBoxLayout();
+
+        QLabel* welcome = new QLabel("Hello User! TeOS Başlatıldı");
+        layout->addWidget(welcome);
+
+        for(auto& app : apps) {
+            QPushButton* btn = new QPushButton(app.name + " " + app.emoji);
+            layout->addWidget(btn);
+            QObject::connect(btn, &QPushButton::clicked, app.action);
+        }
+
+        QPushButton* shutdownBtn = new QPushButton("Kapat");
+        layout->addWidget(shutdownBtn);
+        QObject::connect(shutdownBtn, &QPushButton::clicked, [](){
+            QMessageBox::information(nullptr, "TeOS", "Bilgisayar kapanıyor...");
+            qApp->quit();
+        });
+
+        setLayout(layout);
+    }
+};
+
+int main(int argc, char *argv[]) {
+    QApplication app(argc, argv);
+
+    std::vector<AppIcon> apps = {
+        {"TEDEV", "📦", [](){ QMessageBox::information(nullptr, "TEDEV", "TEDEV açıldı! TPK yükleme hazır."); }},
+        {"TekonAI", "💬", [](){ QMessageBox::information(nullptr, "TekonAI", "TekonAI aktif!"); }},
+        {"Takky", "🐱", [](){ QMessageBox::information(nullptr, "Takky", "Takky açıldı!"); }},
+        {"TeFiles", "📁", [](){ QMessageBox::information(nullptr, "TeFiles", "TeFiles açıldı!"); }},
+        {"TeStore", "🛒", [](){ QMessageBox::information(nullptr, "TeStore", "Uygulama mağazası açıldı!"); }},
+        {"NotePRO", "📝", [](){ QMessageBox::information(nullptr, "NotePRO", "Not uygulaması açıldı!"); }},
+        {"TeWeather", "☀️", [](){ QMessageBox::information(nullptr, "TeWeather", "Hava durumu açıldı!"); }},
+        {"TeMusic", "🎵", [](){ QMessageBox::information(nullptr, "TeMusic", "Müzik çalar açıldı!"); }},
+        {"TeGallery", "🖼️", [](){ QMessageBox::information(nullptr, "TeGallery", "Galeriniz açıldı!"); }},
+        {"TeCamera", "📸", [](){ QMessageBox::information(nullptr, "TeCamera", "Kamera açıldı!"); }},
+        {"TeVideo", "🎬", [](){ QMessageBox::information(nullptr, "TeVideo", "Video oynatıcı açıldı!"); }},
+        {"QuickSpace", "⚡", [](){ QMessageBox::information(nullptr, "QuickSpace", "Hızlı panel açıldı!"); }},
+        {"TeSecurity", "🔒", [](){ QMessageBox::information(nullptr, "TeSecurity", "Güvenlik paneli açıldı!"); }},
+    };
+
+    MainWindow window(apps);
+    window.show();
+
+    return app.exec();
+}
+
