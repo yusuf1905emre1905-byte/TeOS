@@ -33,4 +33,7 @@ class PowerSystem:
     def update_ui(self):
         status = f"🔋 {self.level}% {'⚡' if self.charging else ''}"
         self.ui_label.config(text=status)
-      
+        from system.power import PowerSystem
+battery_label = tk.Label(root, text="🔋100%", bg="#111", fg="lime")
+battery_label.pack(side="top")
+power = PowerSystem(battery_label)
