@@ -958,3 +958,73 @@ int main() {
     anaMenu();
     return 0;
 }
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <time.h>
+
+// Küçük harfe çevirir
+void to_lowercase(char *str) {
+    for (int i = 0; str[i]; i++) {
+        if (str[i] >= 'A' && str[i] <= 'Z')
+            str[i] = str[i] + 32;
+    }
+}
+
+int main() {
+    char input[200];
+    srand(time(NULL));
+
+    printf("🔮 TekonAI v1.3 Başlatıldı!\n");
+    printf("Ben senin TeOS asistanınım. Ne yapmak istersin?\n");
+    printf("Örnek: merhaba, saat, hava, kapat, uygulama aç, tpk oluştur\n\n");
+
+    while (1) {
+        printf("👤 Sen: ");
+        fgets(input, sizeof(input), stdin);
+        input[strcspn(input, "\n")] = 0;
+        to_lowercase(input);
+
+        if (strcmp(input, "merhaba") == 0) {
+            printf("🤖 TekonAI: Merhaba! Seni görmek güzel 😄\n");
+        }
+        else if (strcmp(input, "nasılsın") == 0) {
+            printf("🤖 TekonAI: Mükemmelim! TeOS’ta olmak her zaman eğlenceli 💻\n");
+        }
+        else if (strcmp(input, "saat") == 0) {
+            time_t t;
+            time(&t);
+            printf("🕒 TekonAI: Şu anki saat: %s", ctime(&t));
+        }
+        else if (strcmp(input, "hava") == 0) {
+            printf("🌤️ TekonAI: Dijital dünyada hep güneş var! Ama gerçek hava sensörü bağlı değil 😅\n");
+        }
+        else if (strcmp(input, "tpk oluştur") == 0) {
+            printf("📦 TekonAI: TPK (Te Paket Kurulumu) oluşturuluyor... tamamlandı ✅\n");
+        }
+        else if (strcmp(input, "uygulama aç") == 0) {
+            printf("📱 TekonAI: Hangi uygulamayı açmak istersin?\n");
+            printf("👤 Sen: ");
+            fgets(input, sizeof(input), stdin);
+            input[strcspn(input, "\n")] = 0;
+            printf("🚀 TekonAI: %s uygulaması başlatılıyor...\n", input);
+        }
+        else if (strcmp(input, "yardım") == 0) {
+            printf("🧠 TekonAI Komutları:\n");
+            printf(" - merhaba\n - nasılsın\n - saat\n - hava\n - uygulama aç\n - tpk oluştur\n - kapat\n");
+        }
+        else if (strcmp(input, "kapat") == 0 || strcmp(input, "çık") == 0) {
+            printf("🛑 TekonAI: Görüşürüz! TeOS her zaman seninle 👋\n");
+            break;
+        }
+        else if (strlen(input) == 0) {
+            printf("🤔 TekonAI: Boş mesaj mı gönderdin? 😅\n");
+        }
+        else {
+            printf("🤖 TekonAI: '%s' komutunu tanımadım ama öğrenmeye çalışıyorum!\n", input);
+        }
+    }
+
+    return 0;
+}
+
