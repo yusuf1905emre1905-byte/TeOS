@@ -1,6 +1,7 @@
 # 🔨 TeOS 🔨
 
-**TeOS** — Gerçek OS hissi veren, kendi kernel'i, GUI'si ve uygulama sistemi olan bir işletim sistemi.  
+**TeOS** — Gerçek OS,
+kendi kernel'i, GUI'si ve uygulama sistemi olan bir işletim sistemi.  
 
 ## Özellikler
 - **Kernel + Bootloader + Sürücüler**
