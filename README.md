@@ -37,7 +37,7 @@
 
 ## Test
 - **Önerilen:** Öncelikle QEMU veya sanal makine ile test ediniz.
-- **Not:** Yakında gerçek bilgisayarda test edilebilir, ancak donanım sürücüleri ve bootloader dikkatle uygulanmalıdır.
+- **Not:** gerçek bilgisayarda test edilebilir, ancak donanım sürücüleri ve bootloader dikkatle uygulanmalıdır.
 
 ## Katkıda Bulunmak
 - PR ve katkılar memnuniyetle karşılanır.
