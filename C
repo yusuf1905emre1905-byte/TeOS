@@ -1028,3 +1028,31 @@ int main() {
     return 0;
 }
 
+#include <stdio.h>
+#include "drivers.h"
+#include "bios.h"
+#include "../gui/window.h"
+
+void kernel_main() {
+    // Boot mesajı
+    bios_print("🔨 TeOS 3.0 🔨\n");
+    bios_print("Hello User!\n");
+
+    // Sürücüleri başlat
+    init_keyboard();
+    init_mouse();
+    init_display();
+
+    // GUI başlat
+    gui_init();
+
+    // Başlat menüsü ve uygulamaları yükle
+    load_apps();
+
+    while(1) {
+        gui_update();  // GUI sürekli güncellenir
+        handle_input(); // Klavye & Fare
+    }
+}
+
+
