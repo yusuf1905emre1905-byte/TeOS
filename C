@@ -1054,5 +1054,39 @@ void kernel_main() {
         handle_input(); // Klavye & Fare
     }
 }
+#include <stdio.h>
+#include "drivers.h"
+#include "bios.h"
+#include "../gui/window.h"
+#include "../apps/tekonai/tekonai_core.h"
+#include "../apps/testore/store_core.h"
+
+void kernel_main() {
+    // Başlatma ekranı
+    bios_clear_screen();
+    bios_print("🔨 TeOS 3.0 🔨\n");
+    bios_print("Hello User!\n");
+
+    // Sürücüleri başlat
+    init_keyboard();
+    init_mouse();
+    init_display();
+
+    // GUI başlat
+    gui_init();
+
+    // Başlat menüsü ve simgeleri yükle
+    load_taskbar();
+    load_app_icons();
+
+    // TekonAI ve TeStore'u başlat
+    tekonai_init();
+    store_init();
+
+    while(1) {
+        gui_update();    // GUI sürekli güncellenir
+        handle_input();  // Klavye ve fare kontrolleri
+    }
+}
 
 
