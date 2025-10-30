@@ -1,15 +1,20 @@
 #include <stdio.h>
-#include "characters.c"
 
-void play_cubby_game() {
-    printf("Mini Game: Cubby Top Yakalama başlatıldı!\n");
-    // Oyun mekaniği burada olacak
-}
+typedef struct {
+    char* name;
+    int energy;
+    int happiness;
+    int hunger;
+} Character;
 
-void play_doggy_game() {
-    printf("Mini Game: Doggy Engellerden Kaçma başlatıldı!\n");
-}
+Character Takky = {"Takky", 100, 100, 50};
+Character Cubby = {"Cubby", 100, 100, 50};
+Character Doggy = {"Doggy", 100, 100, 50};
+Character Borty = {"Borty", 100, 100, 50};
+Character Flamo = {"Flamo", 100, 100, 50};
+Character Drippo = {"Drippo", 100, 100, 50};
+Character Sparky = {"Sparky", 100, 100, 50};
 
-void play_borty_game() {
-    printf("Mini Game: Borty Kart Eşleştirme başlatıldı!\n");
+void show_character_status(Character c) {
+    printf("%s -> Energy: %d, Happiness: %d, Hunger: %d\n", c.name, c.energy, c.happiness, c.hunger);
 }
