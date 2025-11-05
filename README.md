@@ -39,6 +39,14 @@ tamamen modüler bir mimariye sahiptir.
 
 ---
 
+Sistem'e Derleyin isteğe bağlı
+   make all
+
+   Emülatör Ortamında Test Edin
+   qemu-system-x86_64 -kernel teos.bin
+İsteğe bağlı
+Not: TeOS Gerçek Bilgisiyar'da Çalıştırılabilir
+
 ## ⚙️ Kurulum
 
 1. Kaynağı GitHub üzerinden indirin veya klonlayın:
@@ -46,10 +54,3 @@ tamamen modüler bir mimariye sahiptir.
    git clone https://github.com/yourname/Free-TeOS.git
    cd Free-TeOS
 
-   Sistem'e Derleyin isteğe bağlı
-   make all
-
-   Emülatör Ortamında Test Edin
-   qemu-system-x86_64 -kernel teos.bin
-İsteğe bağlı
-Not: TeOS Gerçek Bilgisiyar'da Çalıştırılabilir
