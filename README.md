@@ -45,6 +45,7 @@ Sistem'e Derleyin isteğe bağlı
    Emülatör Ortamında Test Edin
    qemu-system-x86_64 -kernel teos.bin
 İsteğe bağlı
+
 Not: TeOS Gerçek Bilgisiyar'da Çalıştırılabilir
 
 ## ⚙️ Kurulum
